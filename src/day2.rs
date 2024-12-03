@@ -2,7 +2,7 @@ use std::cmp::Reverse;
 use std::io::{BufRead, BufReader};
 use std::{fs::File, io, path::Path};
 
-pub fn part1<T: AsRef<Path>>(path: T) -> io::Result<()> {
+pub fn part1<T: AsRef<Path>>(path: T) -> io::Result<i32> {
     let file = File::open(path)?;
     let buf = BufReader::new(file);
     let mut result = 0;
@@ -19,11 +19,10 @@ pub fn part1<T: AsRef<Path>>(path: T) -> io::Result<()> {
         }
         result += 1;
     }
-    println!("part1: {result}");
-    Ok(())
+    Ok(result)
 }
 
-pub fn part2<T: AsRef<Path>>(path: T) -> io::Result<()> {
+pub fn part2<T: AsRef<Path>>(path: T) -> io::Result<i32> {
     let file = File::open(path)?;
     let buf = BufReader::new(file);
     let mut result = 0;
@@ -46,6 +45,5 @@ pub fn part2<T: AsRef<Path>>(path: T) -> io::Result<()> {
         }
         result += 1;
     }
-    println!("part2: {result}");
-    Ok(())
+    Ok(result)
 }
