@@ -9,7 +9,7 @@ pub fn part1<T: AsRef<Path>>(path: T) -> io::Result<i32> {
     let re_mul = Regex::new(r"mul\((\d+),(\d+)\)").unwrap();
     let mut result = 0;
     for line in buf.lines().map_while(Result::ok) {
-        for (_, [a, b ]) in re_mul.captures_iter(&line).map(|c| c.extract()) {
+        for [a, b ] in re_mul.captures_iter(&line).map(|c| c.extract().1) {
             let a: i32 = a.parse().map_err(|_| io::ErrorKind::InvalidData)?;
             let b: i32 = b.parse().map_err(|_| io::ErrorKind::InvalidData)?;
             result += a * b;
