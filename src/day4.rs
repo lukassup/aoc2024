@@ -9,10 +9,10 @@ pub fn part1<T: AsRef<Path>>(path: T) -> io::Result<i32> {
     let file = File::open(path)?;
     let buf = BufReader::new(file);
     let mut result = 0;
-    let lines: Vec<String> = buf.lines().map_while(Result::ok).collect();
+    let lines: Vec<Vec<u8>> = buf.lines().map_while(Result::ok).map(String::into_bytes).collect();
 
     // horizontal lines (window: 1x4)
-    for line in lines.iter().map(String::as_bytes) {
+    for line in lines.iter() {
         for hline in line.windows(4) {
             if hline == XMAS || hline == SAMX {
                 result += 1;
@@ -21,23 +21,23 @@ pub fn part1<T: AsRef<Path>>(path: T) -> io::Result<i32> {
     }
 
     for lines in lines.windows(4) {
+        let l0 = lines[0].iter();
+        let l1 = lines[1].iter();
+        let l2 = lines[2].iter();
+        let l3 = lines[3].iter();
         // vertical lines (window: 4x1)
-        let l0 = lines[0].as_bytes().iter();
-        let l1 = lines[1].as_bytes().iter();
-        let l2 = lines[2].as_bytes().iter();
-        let l3 = lines[3].as_bytes().iter();
-        for (((&l0, &l1), &l2), &l3) in l0.zip(l1).zip(l2).zip(l3) {
-            let vline = [l0, l1, l2, l3];
+        for (((&ch0, &ch1), &ch2), &ch3) in l0.zip(l1).zip(l2).zip(l3) {
+            let vline = [ch0, ch1, ch2, ch3];
             if vline == XMAS || vline == SAMX {
                 result += 1;
             }
         }
 
         // diagonal lines (window: 4x4)
-        let l0 = lines[0].as_bytes().windows(4);
-        let l1 = lines[1].as_bytes().windows(4);
-        let l2 = lines[2].as_bytes().windows(4);
-        let l3 = lines[3].as_bytes().windows(4);
+        let l0 = lines[0].windows(4);
+        let l1 = lines[1].windows(4);
+        let l2 = lines[2].windows(4);
+        let l3 = lines[3].windows(4);
         for (((l0, l1), l2), l3) in l0.zip(l1).zip(l2).zip(l3) {
             let dline1 = [l0[0], l1[1], l2[2], l3[3]];
             if dline1 == XMAS || dline1 == SAMX {
@@ -56,12 +56,12 @@ pub fn part2<T: AsRef<Path>>(path: T) -> io::Result<i32> {
     let file = File::open(path)?;
     let buf = BufReader::new(file);
     let mut result = 0;
-    let lines: Vec<String> = buf.lines().map_while(Result::ok).collect();
+    let lines: Vec<Vec<u8>> = buf.lines().map_while(Result::ok).map(String::into_bytes).collect();
     // diagonal lines (window: 3x3)
-    for line in lines.windows(3) {
-        let l0 = line[0].as_bytes().windows(3);
-        let l1 = line[1].as_bytes().windows(3);
-        let l2 = line[2].as_bytes().windows(3);
+    for lines in lines.windows(3) {
+        let l0 = lines[0].windows(3);
+        let l1 = lines[1].windows(3);
+        let l2 = lines[2].windows(3);
         for ((w0, w1), w2) in l0.zip(l1).zip(l2) {
             match [w0, w1, w2] {
                 [
