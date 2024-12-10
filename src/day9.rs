@@ -12,9 +12,7 @@ pub fn part1<T: AsRef<Path>>(path: T) -> io::Result<u64> {
     line.chars().enumerate().for_each(|(fid, fsize)| {
         let fsize = fsize.to_digit(10).unwrap();
         let sector = if fid % 2 == 0 { Some(fid / 2) } else { None };
-        for _ in 0..fsize {
-            disk_map.push(sector);
-        }
+        disk_map.extend(iter::repeat_n(sector, fsize as usize));
     });
 
     for i in (0..disk_map.len()).rev() {
