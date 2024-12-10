@@ -7,6 +7,7 @@ mod day3;
 mod day4;
 mod day5;
 mod day9;
+mod day10;
 
 fn main() -> io::Result<()> {
     let now = Instant::now();
@@ -55,6 +56,14 @@ fn main() -> io::Result<()> {
 
     let now = Instant::now();
     day9::part2("input/day9.txt").map(|n| println!("day9p2: {n}"))?;
+    eprintln!("⏱️ {:?}", now.elapsed());
+
+    let now = Instant::now();
+    day10::part1("input/day10.txt").map(|n| println!("day10p1: {n}"))?;
+    eprintln!("⏱️ {:?}", now.elapsed());
+
+    let now = Instant::now();
+    day10::part2("input/day10.txt").map(|n| println!("day10p2: {n}"))?;
     eprintln!("⏱️ {:?}", now.elapsed());
 
     Ok(())
